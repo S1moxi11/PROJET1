@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Le Crépuscule du Roi</title>
+</head>
+
+<body>
+    <header>
+        <h1>Le Crépuscule du Roi</h1>
+        <nav>
+            <ul>
+                <li><a href="#description">Description</a></li>
+                <li><a href="#lore">Lore</a></li>
+                <li><a href="#zones">Zones</a></li>
+                <li><a href="#objets">Objets</a></li>
+                <li><a href="#mecaniques">Mécaniques</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="description">
+        <h2>Description du Jeu</h2>
+
+        Mon projet a pour but de simuler un RPG ( jeu de rôle ) dans une façon ‘primitive’, c’est à dire seulement
+        l’introduction ( Écran de Démarrage, choisir classe et pseudo ), la phase de combat ( Différentes zones/ennemis,
+        pouvoir attaquer, se défendre, faire une attaque spéciale et pouvoir utiliser des objets ) ainsi qu’une
+        interface de fin de jeu.</br></br>
+        Pour se faire, il faut d’abord créer une partie pour les personnages et les classes, une autre pour les objets,
+        ainsi qu’une partie pour les ennemis et les zones et enfin une partie pour l’interface graphique.</br></br>
+        Pour l’interface graphique j’ai opté pour le module PyQt5 car il permet une certaine liberté au niveau des
+        interactions ainsi qu’une grande personnalisation. Pour ce qui est des personnages, je suis resté simple en
+        utilisant seulement python et le module random. J’ai fait de même pour la partie objet et la partie
+        ennemi.</br></br>
+
+        Pour la partie personnage;</br></br>
+        Il faut une classe pour stocker les classes sélectionnable par le joueur ainsi qu’une classe pour définir un
+        personnage, la classe Personnage possède 11 attributs : nbCoupCrit, xpMax, mp, nom, critChance, stats,
+        inventaire, niveau, statsBase, atqSpe et la classe Classes, ne possède seulement un attribut, listeClasses, car
+        elle est seulement là pour stocker les différentes classes. La classe Personnage possède 10 méthodes qui sont :
+        ajouter_objet, atqSpecial, attaquer,choisirClasse , gagnerExp, gagnerNiveau, recupPV, seDefendre, setLevel,
+        utiliser_objet et aucune pour Classes.</br></br>
+
+        Pour la partie ennemi:</br></br>
+        Il faut une classe pour stocker les zones contenant les ennemis ainsi qu'une classe pour définir un ennemi. La
+        classe Ennemi possède 5 attributs : nom, nb_battu, stats, niveau, statsBase et la classe Zones ne possède
+        seulement un attribut, zones, car elle est seulement là pour stocker les différentes zones et ennemis. La classe
+        Ennemi possède quatre méthodes : attaquer, check, mourir, setLevel et la classe Zones une seule pour ajouter les
+        zones : ajouterZone.</br></br>
+
+        Pour la partie objet :</br></br>
+        Il faut une classe pour stocker les objets disponibles ainsi qu'une classe pour définir un objet. La classe
+        Objet possède 4 attributs : nom, bonus, activale, capacite et la classe ListeObjet ne possède qu' un attribut,
+        listeObjet, car elle est seulement là pour stocker les différents objets. La classe Ennemi posséderait quatre
+        méthodes : attaquer, check, mourir, setLevel et la classe ListeObjet une seule pour ajouter les objets :
+        ajouterObjet.</br></br>
+
+        Pour la partie Interface graphique :</br></br>
+        Il faut une classe pour le début du jeu, une autre pour la fenetre du prologue, une autre pour la fenetre de
+        combat, pour la fenetre d’un inventaire, pour la fenetre de statistique, et celle de fin du jeu, un autre pour
+        les boutons de l’inventaire et des boutons stylisé. Les classes de l’interface graphique contiennent toutes plus
+        de 25 attributs chacun qu’ils héritent de leurs parents, je ne ferai donc pas la liste de tous sachant que je
+        n’ai pas accès directement aux attributs des parents, mais ils sont tous répertoriés sur la documentation de
+        PyQt5, mais voici ceux que j’ai créé pour chaque classes ;</br></br>
+
+        FenetreCombat : ennemiBattu, ennemiBattuTot, ennemiBattuRequis, zoneBattu, niv_min, niv_max, indZone, indice,
+        textes, lesobjets, leszones, zone, ennemi, personnage, timer, canPlay, bouton_attaquer, attaque_speciale_bouton,
+        bouton_defendrere, bouton_inventaire, bouton_stats, pseudo_joueur, barre_de_vie_joueur, barre_de_mana_joueur,
+        anim_vie_joueur, viePrecP, anim_mana_joueur, mpPrec, nom_ennemi, barre_de_vie_ennemi, anim_vie_ennemi, viePrecE,
+        text_display.</br></br>
+
+        Jeu : fenetreCombat, background_label, nom_du_jeu, start_bouton, bouton_info</br></br>
+
+        InventoryWindow : bouton_inventaire</br></br>
+
+        Liste des méthodes pour chaque classes de l’interface graphique sans compter celle de leurs parents:</br></br>
+
+        InventoryWindow : update_inventory, utiliser_item, verif_utiliser_item</br></br>
+
+        FenetreCombat : montrerStats, checkLevel, actu_ennemi, actu_joueur, attaquer, write, attaqueSpeciale, defendre,
+        ouvrir_inv, actu_affichage_text, ennemiAl, listeDeStr, checkChangements, changeZone, checkEnnemi</br></br>
+
+        Jeu : update_background, actual_nom_du_jeu, actual_bouton_start, actual_bouton_info, commencer, open_info,
+        creation_du_perso_incoryable, resizeEvent</br></br>
+
+        Voila ! C’est toutes les classes, méthodes et attributs que j’ai défini !</br></br>
+
+        Alors pour ce qui est du fonctionnement (seulement les classes les plus importantes), la classe Personnage, elle
+        sert à gérer tout ce qui est dégâts envoyés, dégâts reçus, statistiques du personnage et inventaire. La classe
+        Objet sert à gérer tout ce qui est en rapport avec les objets, c'est-à-dire leurs utilisations pour augmenter
+        les stats et leurs effets spéciaux. La classe Ennemi sert à gérer les ennemis, le fait de donner de l'expérience
+        au personnage, des objets et bien sur les statistiques des ennemis. La classe FenetreCombat quant à elle, gère
+        la partie graphique du combat et la logique pour ce qui est des tours de combat, le changement de zone et
+        d’ennemi, choisi l’action qu’on fait.</br></br>
+
+    </section>
+    <section id="lore">
+        <h2>Lore du Jeu</h2>
+        Avorat est un monde où de grandioses civilisations ont connu des temps glorieux emplis de merveilles, de magie
+        et de créatures fantastiques. Les dieux foulaient le même sol que les mortels et les Rois se tenaient la tête
+        haute face au monde, mais l'avidité des Nains, des Elfes, des Orques et des Humains a un jour mis fin à cet âge
+        des merveilles. </br></br> Pendant plus de 5 000 ans, les mortels se sont retrouvés abandonnés sur des
+        continents moribonds, arides et infestés de créatures monstrueuses. Et c'est pendant ces 5 millénaires que les
+        Rois ont pu se mettre en avant, ils réussirent à se placer au sommet de ce monde et après ces 5000 ans, la
+        Grande Guerre commença,
+        cette guerre était une guerre où se confrontaient toutes les races et tous les Rois et elle dura un temps que
+        personne ne pourrait imaginer. Les Rois devinrent des
+        existences dont on ne pouvait qu'imaginer la puissance. </br></br>Cette guerre se passa tellement loin dans le
+        passé et pendant tellement longtemps, qu’aujourd’hui, personne ne s’en rappelle clairement, cette guerre
+        s'arrêta 6412 ans avant la naissance de notre protagoniste. La seule chose qui reste certaine même après autant
+        de temps c’est que cette guerre avait teinté le monde de sang. </br></br>Ce désastre mena le monde dans une ère
+        sombre, où la seule chose ayant des pouvoirs divins étant : L'Ombre Primordiale, le Roi de l'Infini, le seul roi
+        ayant survécu à la guerre. Il a été nommé ainsi car il eut survécu une éternité, et là où il passait, la lumière
+        partait. </br></br>Passons au présent, l’an 6412 après la guerre, Avorat est plongé dans les ténèbres, mais
+        certain sont rempli d’espoir, les croyants de la déesse Héméra, celle qui incarnait la lumière, une prophétie
+        disant l’apparition de quelqu’un capable de rendre cette ère sombre révolute dans le 7e millénaire suivant la
+        fin de la guerre, ils se préparèrent assidûment à tâche durant tout ce temps. </br></br>Puis, malgré les jours
+        devenant toujours plus sombre, une lueurs, que dis-je, un rayon de lumière éclaira le continent de Gisihus.
+        C’est la naissance d’une nouvelle ère.</br></br> Vous incarnez donc cette personne élue par la déesse Héméra,
+        vous serez entrainé par les croyants à vous battre de la manière que vous voulez, en tant qu’assassin, mage,
+        archer/archère, ou bien guerrier/guerrière. Votre mission est claire : tuer le roi arrogant et rétablir la
+        lumière qui est due à ce monde tourmenté. Que la bataille pour la rédemption d'Avorat commence !
+    </section>
+
+    <section id="zones">
+        <h2>Zones du Jeu</h2>
+
+        <h3>La Forêt Sombre :</h3>
+        <p>
+            Explorez la mystérieuse Forêt Sombre, où une obscurité dense abrite des créatures malveillantes. Parmi elles
+            :
+        </p>
+        <ul>
+            <li><strong>Écorche-ombre :</strong> Une créature humanoïde recouverte d'une écorce sombre, capable de se
+                fondre dans les ombres. Elle attaque avec des griffes tranchantes et est particulièrement agile dans
+                l'obscurité.</li>
+            <li><strong>Arbrisseur maudit :</strong> Un esprit maléfique lié aux arbres de la Forêt Sombre. Il contrôle
+                les racines pour piéger ses proies et peut lancer des malédictions mortelles. Son corps est formé
+                d'écorce en décomposition.</li>
+            <li><strong>Spectre sylvestre :</strong> Une entité éthérée qui se manifeste au cœur des arbres. Il a le
+                pouvoir de manipuler les illusions, rendant difficile la distinction entre la réalité et le rêve. Ses
+                attaques psychiques sont déroutantes et redoutables.</li>
+        </ul>
+
+        <h3>Les Montagnes Éternelles :</h3>
+        <p>
+            Traversez les majestueuses Montagnes Éternelles, où des dangers glacés et des prédateurs redoutables vous
+            attendent :
+        </p>
+        <ul>
+            <li><strong>Géant de Pierre :</strong> Une créature gigantesque faite de roches et de minéraux. Sa force
+                brutale et son endurance en font un adversaire redoutable. Il peut provoquer des éboulements pour
+                surprendre ses ennemis.</li>
+            <li><strong>Wyrm cristallin :</strong> Un serpent draconique couvert d'écailles cristallines. Il crache des
+                jets de lumière cristalline mortelle et est capable de se camoufler dans les parois rocheuses.</li>
+            <li><strong>Harpie des Cieux :</strong> Des créatures ailées avec des serres tranchantes et des cris
+                perçants. Elles chassent en essaim et attaquent en piqué, harcelant leurs proies des hauteurs.</li>
+        </ul>
+
+        <h3>Le Désert des Illusions :</h3>
+        <p>
+            Traversez le Désert des Illusions, un endroit aride où le sable dissimule des mirages mortels :
+        </p>
+        <ul>
+            <li><strong>Goule du désert :</strong> Une créature réanimée par les forces sombres du désert. Elle traque
+                ses proies avec une voracité implacable, dévorant tout sur son passage.</li>
+            <li><strong>Scarabée d'Émeraude :</strong> Un insecte géant aux ailes irisées. Il crée des tempêtes de sable
+                en battant des ailes et utilise ses mandibules pour broyer ses proies.</li>
+            <li><strong>Marabout des Sables :</strong> Un être spectral qui se dissimule dans les mirages du désert. Il
+                draine la vie de ses ennemis à distance en utilisant des attaques de magie noire.</li>
+        </ul>
+
+        <h3>Les Marais Maudits :</h3>
+        <p>
+            Pénétrez dans les Marais Maudits, où une atmosphère épaisse et putride abrite des créatures venimeuses :
+        </p>
+        <ul>
+            <li><strong>Méduse des Marécages :</strong> Un monstre serpentiforme avec des yeux pétrifiants et des
+                tentacules venimeux. Elle traque ses proies en utilisant la végétation aquatique comme camouflage.</li>
+            <li><strong>Croc-d'ombre :</strong> Un reptile amphibie capable de se fondre dans les ténèbres. Il surgit
+                des eaux stagnantes pour saisir sa proie avec ses mâchoires acérées.</li>
+            <li><strong>Banshee des Marais :</strong> Un esprit féminin pleurant de manière lugubre. Sa lamentation a le
+                pouvoir de désorienter et de terrifier, affaiblissant ceux qui l'entendent.</li>
+        </ul>
+
+        <h3>Les Plaines Éthérées :</h3>
+        <p>
+            Parcourez les vastes Plaines Éthérées, où des vents mystiques portent des secrets anciens :
+        </p>
+        <ul>
+            <li><strong>Spectre errant :</strong> Une entité insaisissable qui se déplace avec le vent. Il peut devenir
+                invisible à volonté et frappe avec des attaques fantomatiques.</li>
+            <li><strong>Centaure astral :</strong> Une créature mi-humaine, mi-éthérée, montée sur un destrier spectral.
+                Il manie une lance d'énergie astrale et peut charger à une vitesse fulgurante.</li>
+            <li><strong>Siffleur d'Éclairs :</strong> Un oiseau électrifié aux plumes lumineuses. Il génère des éclairs
+                mortels et utilise des pouvoirs électriques pour surprendre ses ennemis.</li>
+        </ul>
+
+        <h3>Les Grottes Obsidiennes :</h3>
+        <p>
+            Explorez les Grottes Obsidiennes, un réseau de cavernes sombres et dangereuses :
+        </p>
+        <ul>
+            <li><strong>Nécro-minéral :</strong> Une créature faite de roche noire et de cristaux, capable de contrôler
+                les ombres pour créer des illusions dérangeantes. Il peut également manipuler la pierre pour créer des
+                armes.</li>
+            <li><strong>Spores de l'Ombre :</strong> Des champignons maléfiques qui libèrent des spores toxiques. Ils
+                peuvent infecter les intrus, provoquant hallucinations et affaiblissements.</li>
+            <li><strong>Spectre d'Obsidienne :</strong> Une entité qui émerge des parois de la caverne, utilisant son
+                corps d'obsidienne pour absorber la lumière. Ses attaques ont des effets corrosifs.</li>
+        </ul>
+
+        <h3>Les Cieux Perdus :</h3>
+        <p>
+            Explorez les Cieux Perdus, un royaume aérien où des nuages tumultueux cachent des créatures volantes
+            redoutables :
+        </p>
+        <ul>
+            <li><strong>Griffon d'Orage :</strong> Une créature majestueuse mi-lion, mi-aigle, avec des ailes d'éclairs.
+                Il attaque avec des serres puissantes et peut générer des tempêtes électriques.</li>
+            <li><strong>Fée Tourbillon :</strong> Un être de lumière et d'énergie qui se déplace à une vitesse
+                éblouissante. Elle utilise des projectiles de lumière et peut confondre les sens de ses adversaires.
+            </li>
+            <li><strong>Ange Déchu :</strong> Autrefois messager divin, il a été corrompu par l'ombre. Il manie une épée
+                d'obsidienne et a le pouvoir de drainer l'énergie vitale de ses ennemis.</li>
+        </ul>
+
+        <h3>Les Champs Miroitants :</h3>
+        <p>
+            Parcourez les Champs Miroitants, où des rivières de lumière créent des reflets éblouissants mais, la lumière
+            semble fausse ?:
+        </p>
+        <ul>
+            <li><strong>Golem de Cristal Corrompu :</strong> Une créature massive faite de cristaux translucides. Il
+                utilise des attaques de lumière éblouissantes et peut se régénérer en absorbant la lumière ambiante.
+            </li>
+            <li><strong>Papillon Astral Corrompu :</strong> Une créature délicate aux ailes incrustées d'étoiles. Elle
+                utilise des poudres stellaires pour aveugler ses ennemis et peut invoquer des illusions.</li>
+            <li><strong>Gardien des Éclats Corrompu :</strong> Une entité lumineuse qui protège les Champs Miroitants.
+                Il manipule des lances de lumière et peut créer des barrières énergétiques.</li>
+        </ul>
+
+        <h3>Le Temple des Lumières - Domaine du Roi de l'Infini :</h3>
+        <p>
+            Pénétrez dans le légendaire Temple des Lumières, où le Roi de l'Infini règne en maître. Affrontez ses
+            gardiens implacables :
+        </p>
+        <ul>
+            <li><strong>Ombre Primordiale - Roi de l'Infini :</strong> La source de l'obscurité qui a plongé Avorat dans
+                le chaos. Il possède des pouvoirs divins, manipulant les ténèbres et corrompant la lumière. Son aura
+                sombre rend tout espoir éphémère.</li>
+            <li><strong>Sentinelles Éternelles :</strong> Gardiens créés par le Roi de l'Infini, ils sont faits d'ombres
+                cristallisées. Ils manient des lames d'obsidienne et sont immunisés contre la plupart des attaques
+                conventionnelles.</li>
+            <li><strong>Sphère d'Ombre :</strong> Une entité orbiculaire qui absorbe et déforme la lumière. Elle peut
+                altérer la réalité autour d'elle, créant des illusions déconcertantes.</li>
+            <li><strong>Phoenix des Abysses :</strong> Une créature enflammée issue des ténèbres. Elle utilise le feu
+                noir pour incinérer ses ennemis et peut se régénérer en absorbant les ombres.</li>
+        </ul>
+    </section>
+
+
+    <section id="objets">
+        <h2>Objets</h2>
+
+        <div class="objet">
+            <h3>Éclat de Lueur</h3>
+            <p><strong>Effets:</strong> Vie +125, Defense +5.</p>
+            <p><strong>Description:</strong> Un fragment étincelant qui émane une lueur apaisante. En le portant, vous
+                ressentez une énergie régénérante qui renforce votre vitalité et renforce votre capacité à résister aux
+                attaques.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Pierre d'Éclipsia</h3>
+            <p><strong>Effets:</strong> Attaque +12, Defense +7.5, restaure complètement la vie perdue.</p>
+            <p><strong>Description:</strong> Une pierre rare et puissante qui absorbe l'obscurité pour renforcer vos
+                capacités offensives et défensives. De plus, elle a le pouvoir de restaurer instantanément votre santé,
+                vous permettant de survivre aux combats les plus acharnés.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Amulette du Gardien</h3>
+            <p><strong>Effets:</strong> Defense +12.5, Agilité +10.</p>
+            <p><strong>Description:</strong> Une amulette ornée d'anciens symboles protecteurs. Elle renforce votre
+                résistance aux attaques ennemies tout en améliorant votre agilité, vous permettant d'esquiver habilement
+                les coups.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Potion d'Ombre</h3>
+            <p><strong>Effets:</strong> Agilité +30.</p>
+            <p><strong>Description:</strong> Une potion mystérieuse qui libère l'essence de l'ombre. En la consommant,
+                votre agilité augmente de manière spectaculaire, vous conférant une rapidité et une réactivité
+                exceptionnelles sur le champ de bataille.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Flèche de Lumière</h3>
+            <p><strong>Effets:</strong> Attaque +25, permet d'attaquer en ignorant partiellement la défense.</p>
+            <p><strong>Description:</strong> Une flèche bénie par la lumière divine. Elle traverse les défenses ennemies
+                avec une facilité surprenante, infligeant des dégâts significatifs même aux adversaires les mieux
+                protégés.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Élixir de Sérénité</h3>
+            <p><strong>Effets:</strong> Vie +50, VieMax +100.</p>
+            <p><strong>Description:</strong> Un breuvage qui apaise l'esprit et revitalise le corps. En le consommant,
+                votre santé actuelle augmente, tandis que votre maximum de vie bénéficie également d'une augmentation.
+            </p>
+        </div>
+
+        <div class="objet">
+            <h3>Lame de Crépuscule</h3>
+            <p><strong>Effets:</strong> Attaque +20, permet d'attaquer en ignorant la défense.</p>
+            <p><strong>Description:</strong> Une lame sombre imprégnée de l'énergie crépusculaire. Elle découpe les
+                défenses ennemies avec une facilité déconcertante, laissant vos adversaires vulnérables à vos attaques.
+            </p>
+        </div>
+
+        <div class="objet">
+            <h3>Orbe Astral</h3>
+            <p><strong>Effets:</strong> Vie +50, Attaque +10, Defense +5, Agilité +10, VieMax +50.</p>
+            <p><strong>Description:</strong> Un orbe magique qui équilibre vos attributs vitaux. En le tenant, vous
+                ressentez une harmonie magique qui renforce toutes les facettes de votre être.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Corne de Vigilance</h3>
+            <p><strong>Effets:</strong> Agilité +20.</p>
+            <p><strong>Description:</strong> Une corne taillée dans un matériau léger mais résistant. En la portant,
+                votre agilité atteint des sommets, vous permettant d'évoluer avec une grâce inégalée.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Bouclier Lunaire</h3>
+            <p><strong>Effets:</strong> Defense +25, VieMax +150.</p>
+            <p><strong>Description:</strong> Un bouclier enchanté qui tire sa puissance de la lueur de la lune. Il
+                renforce considérablement votre défense tout en améliorant votre endurance, vous permettant de résister
+                aux assauts les plus féroces.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Pierre de Régénération</h3>
+            <p><strong>Effets:</strong> Vie +500.</p>
+            <p><strong>Description:</strong> Une pierre précieuse qui libère une énergie curative. En la touchant, votre
+                santé est régénérée de manière significative, offrant un répit bienvenu dans les moments les plus
+                périlleux.</p>
+        </div>
+
+        <div class="objet">
+            <h3>Graine d'Harmonie</h3>
+            <p><strong>Effets:</strong> Vie +10, Attaque +10, Defense +5, Agilité +10, VieMax +100.</p>
+            <p><strong>Description:</strong> Une petite graine qui symbolise l'unité des éléments vitaux. En la portant,
+                chaque aspect de votre être est renforcé, créant une harmonie
+            <div class="objet">
+                <h3>Boussole Stellaire</h3>
+                <p><strong>Effets:</strong> Agilité +20.</p>
+                <p><strong>Description:</strong> Une boussole enchantée qui pointe toujours vers l'étoile la plus
+                    brillante. En la portant, votre agilité est améliorée, vous guidant habilement à travers les défis.
+                </p>
+            </div>
+
+            <div class="objet">
+                <h3>Bougie Bénie</h3>
+                <p><strong>Effets:</strong> CritChance +10.</p>
+                <p><strong>Description:</strong> Une bougie sacrée qui émet une lueur divine. En l'allumant, votre
+                    chance de délivrer des coups critiques est augmentée, rendant chaque attaque plus redoutable.</p>
+            </div>
+
+            <div class="objet">
+                <h3>Arcane Prismatique</h3>
+                <p><strong>Effets:</strong> Attaque +30.</p>
+                <p><strong>Description:</strong> Un artefact mystique qui capture et amplifie les énergies magiques. En
+                    le maniant, votre puissance offensive est décuplée, faisant de vous un adversaire redoutable sur le
+                    champ de bataille.</p>
+            </div>
+    </section>
+
+    <section id="mecaniques">
+        <h2>Mécaniques</h2>
+
+        <div class="mecanique">
+            <h3>Inventaire</h3>
+            <p>En tuant un ennemi, vous avez une chance d'obtenir un objet. Vous pouvez y accéder en cliquant sur
+                "inventaire". Une fois à l'intérieur, cliquez sur l'objet que vous souhaitez, et BAM, la magie de cet
+                objet opère (aucune des statistiques ne prend effet lorsqu'on n'utilise pas l'objet). Une fois l'objet
+                utilisé, il active ses effets sur les statistiques ainsi que son effet spécial s'il en a un.</p>
+        </div>
+
+        <div class="mecanique">
+            <h3>Se Défendre</h3>
+            <p>En vous défendant, vous permettez à votre ennemi de vous asséner un coup gratuitement, mais vous avez de
+                grandes chances de subir des dégâts réduits, voire même de ne pas subir de dégâts du tout. Si vous êtes
+                très chanceux, vous pouvez même contre-attaquer. Suite à votre défense, l'ennemi peut se retrouver en
+                difficulté et ne pas réussir à attaquer au prochain tour. C'est donc une bonne solution si vous n'avez
+                pas beaucoup de points de vie mais que vous avez beaucoup de chance !</p>
+        </div>
+
+        <div class="mecanique">
+            <h3>Attaque Spéciale</h3>
+            <p>L'Attaque Spéciale est un bon moyen de combattre des ennemis puissants. Elle permet d'asséner un coup qui
+                inflige des dégâts significatifs et empêche l'ennemi de riposter. C'est donc un tour où vous attaquez
+                seul. Cependant, une attaque spéciale n'est pas gratuite ; elle consomme 20 points de mana. Le mana est
+                une ressource que vous n'avez pas en abondance, vous n'en possédez que 100, et il ne se régénère que
+                lorsque vous montez de niveau.</p>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Le Crépuscule du Roi</p>
+    </footer>
+
+</body>
+
+</html>
